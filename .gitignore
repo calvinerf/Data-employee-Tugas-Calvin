@@ -3,3 +3,6 @@ lab/venv/
 __pycache__/
 *.pyc
 .DS_Store
+__MACOSX/
+.vscode/
+venv/
