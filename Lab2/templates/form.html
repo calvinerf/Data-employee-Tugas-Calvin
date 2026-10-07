@@ -1,0 +1,253 @@
+<!-- templates/form.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Manajemen Employee</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --danger: #dc2626;
+            --bg: #f3f4f6;
+            --card: #ffffff;
+            --text: #111827;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 32px 16px 64px; }
+
+        header { margin-bottom: 24px; }
+        header h1 { margin: 0; font-size: 1.75rem; }
+        header p { margin: 4px 0 0; color: var(--muted); }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .06);
+        }
+        .card h2 {
+            margin: 0 0 16px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .badge {
+            background: #eef2ff;
+            color: var(--primary);
+            font-size: .8rem;
+            font-weight: 600;
+            padding: 2px 10px;
+            border-radius: 999px;
+        }
+
+        /* Form */
+        .form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .field label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: 6px; }
+        .field input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: .95rem;
+            font-family: inherit;
+        }
+        .field input:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 1px;
+            border-color: transparent;
+        }
+        .form-actions { margin-top: 16px; }
+
+        /* Tombol */
+        .btn {
+            border: none;
+            border-radius: 8px;
+            padding: 9px 16px;
+            font-size: .9rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background .15s;
+        }
+        .btn-primary { background: var(--primary); color: #fff; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-edit { background: #eef2ff; color: var(--primary); padding: 6px 12px; }
+        .btn-edit:hover { background: #e0e7ff; }
+        .btn-delete { background: #fee2e2; color: var(--danger); padding: 6px 12px; }
+        .btn-delete:hover { background: #fecaca; }
+        .btn-ghost { background: #f3f4f6; color: var(--text); }
+        .btn-ghost:hover { background: #e5e7eb; }
+
+        /* Tabel */
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th {
+            text-align: left;
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            color: var(--muted);
+            padding: 10px 12px;
+            border-bottom: 2px solid var(--border);
+        }
+        td { padding: 12px; border-bottom: 1px solid var(--border); }
+        tbody tr:hover { background: #f9fafb; }
+        .num { text-align: right; white-space: nowrap; }
+        th.num { text-align: right; }
+        .empty { text-align: center; color: var(--muted); padding: 32px; }
+        .actions { display: flex; gap: 8px; }
+        .actions form { margin: 0; }
+
+        /* Popup */
+        dialog {
+            border: none;
+            border-radius: 12px;
+            padding: 0;
+            width: min(420px, 92vw);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .25);
+        }
+        dialog::backdrop { background: rgba(17, 24, 39, .5); }
+        .modal-body { padding: 24px; }
+        .modal-body h3 { margin: 0 0 16px; }
+        .field + .field { margin-top: 14px; }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+
+        @media (max-width: 640px) {
+            .form-grid { grid-template-columns: 1fr; }
+        }
+            .form-grid .field + .field { margin-top: 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Manajemen Employee</h1>
+            <p>Tambah, ubah, dan hapus data karyawan.</p>
+        </header>
+
+        <!-- FORM TAMBAH -->
+        <section class="card">
+            <h2>Tambah Employee Baru</h2>
+            <form action="/employees/new" method="POST">
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="name">Nama</label>
+                        <input type="text" id="name" name="name" placeholder="Contoh: Dewi" required>
+                    </div>
+                    <div class="field">
+                        <label for="position">Posisi</label>
+                        <input type="text" id="position" name="position" placeholder="Contoh: Staff">
+                    </div>
+                    <div class="field">
+                        <label for="salary">Gaji (Rp)</label>
+                        <input type="number" id="salary" name="salary" placeholder="5000000">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- DAFTAR EMPLOYEE -->
+        <section class="card">
+            <h2>Daftar Employee <span class="badge">{{ employees|length }} data</span></h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama</th>
+                            <th>Posisi</th>
+                            <th class="num">Gaji</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for e in employees %}
+                        <tr>
+                            <td>{{ e.id }}</td>
+                            <td>{{ e.name }}</td>
+                            <td>{{ e.position }}</td>
+                            <td class="num">Rp {{ "{:,}".format(e.salary).replace(",", ".") }}</td>
+                            <td>
+                                <div class="actions">
+                                    <button type="button" class="btn btn-edit" onclick="openEdit(this)"
+                                        data-id="{{ e.id }}"
+                                        data-name="{{ e.name }}"
+                                        data-position="{{ e.position }}"
+                                        data-salary="{{ e.salary }}">Edit</button>
+
+                                    <form action="/employees/{{ e.id }}/delete" method="POST"
+                                          onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                        <button type="submit" class="btn btn-delete">Hapus</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr><td colspan="5" class="empty">Belum ada data employee.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- POPUP EDIT -->
+    <dialog id="editModal">
+        <div class="modal-body">
+            <h3>Edit Employee</h3>
+            <form id="editForm" method="POST">
+                <div class="field">
+                    <label for="editName">Nama</label>
+                    <input type="text" name="name" id="editName" required>
+                </div>
+                <div class="field">
+                    <label for="editPosition">Posisi</label>
+                    <input type="text" name="position" id="editPosition">
+                </div>
+                <div class="field">
+                    <label for="editSalary">Gaji (Rp)</label>
+                    <input type="number" name="salary" id="editSalary">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-ghost" onclick="document.getElementById('editModal').close()">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <script>
+        const modal = document.getElementById('editModal');
+
+        function openEdit(btn) {
+            document.getElementById('editForm').action = '/employees/' + btn.dataset.id + '/update';
+            document.getElementById('editName').value = btn.dataset.name;
+            document.getElementById('editPosition').value = btn.dataset.position;
+            document.getElementById('editSalary').value = btn.dataset.salary;
+            modal.showModal();
+        }
+
+        // Klik area gelap di luar popup untuk menutup
+        modal.addEventListener('click', function (ev) {
+            if (ev.target === modal) modal.close();
+        });
+    </script>
+</body>
+</html>
